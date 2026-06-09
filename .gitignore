@@ -1,0 +1,22 @@
+# Working folders can contain large sermon files, so only keep their placeholders.
+incoming/*
+!incoming/.gitkeep
+
+extracted_audio/*
+!extracted_audio/.gitkeep
+
+archive/*
+!archive/.gitkeep
+
+# Sermon media files should not be committed.
+*.mp4
+*.mkv
+*.mov
+*.mp3
+*.wav
+*.m4a
+
+# Local Python and environment files.
+__pycache__/
+.venv/
+.env
