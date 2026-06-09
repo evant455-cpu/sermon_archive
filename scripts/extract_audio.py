@@ -1,3 +1,4 @@
+import os
 import subprocess
 from pathlib import Path
 
@@ -20,6 +21,7 @@ def main():
     project_root = Path(__file__).resolve().parent.parent
     incoming_folder = project_root / "incoming"
     audio_folder = project_root / "extracted_audio"
+    requested_sermon_id = os.environ.get("SERMON_ID")
 
     print("Looking for one sermon video in incoming/...")
 
@@ -34,7 +36,22 @@ def main():
         print("Add a .mp4, .mkv, or .mov sermon file, then run this script again.")
         return
 
-    input_video = video_files[0]
+    if requested_sermon_id:
+        matching_videos = [
+            file_path
+            for file_path in video_files
+            if clean_audio_name(file_path) == f"{requested_sermon_id}.mp3"
+        ]
+
+        if not matching_videos:
+            print(f"No video found for SERMON_ID={requested_sermon_id}.")
+            print("The original videos were not deleted or modified.")
+            return
+
+        input_video = matching_videos[0]
+    else:
+        input_video = video_files[0]
+
     output_audio = audio_folder / clean_audio_name(input_video)
 
     audio_folder.mkdir(exist_ok=True)
