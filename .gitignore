@@ -26,3 +26,6 @@ metadata/*.json
 __pycache__/
 .venv/
 .env
+working/
+claude_analysis_sermon_1.txt
+sermon_summary.pdf
