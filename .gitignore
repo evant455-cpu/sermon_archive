@@ -8,6 +8,8 @@ extracted_audio/*
 archive/*
 !archive/.gitkeep
 
+transcripts/*.txt
+
 # Sermon media files should not be committed.
 *.mp4
 *.mkv
