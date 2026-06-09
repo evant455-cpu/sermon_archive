@@ -55,7 +55,7 @@ def main():
 
     audio_folder = project_root / "extracted_audio"
     transcripts_folder = project_root / "transcripts"
-    requested_sermon_id = os.environ.get("SERMON_ID")
+    requested_sermon_id = os.environ.get("SERMON_ID", "sermon_1_video")
 
     print("Looking for the first MP3 file in extracted_audio/...")
 
@@ -70,19 +70,16 @@ def main():
         print("No audio files were modified or deleted.")
         return
 
-    if requested_sermon_id:
-        matching_audio = [
-            file_path for file_path in audio_files if file_path.stem == requested_sermon_id
-        ]
+    matching_audio = [
+        file_path for file_path in audio_files if file_path.stem == requested_sermon_id
+    ]
 
-        if not matching_audio:
-            print(f"No audio found for SERMON_ID={requested_sermon_id}.")
-            print("No audio files were modified or deleted.")
-            return
+    if not matching_audio:
+        print(f"No audio found for SERMON_ID={requested_sermon_id}.")
+        print("No audio files were modified or deleted.")
+        return
 
-        input_audio = matching_audio[0]
-    else:
-        input_audio = audio_files[0]
+    input_audio = matching_audio[0]
 
     output_transcript = transcripts_folder / f"{input_audio.stem}_raw_transcript.txt"
 
