@@ -9,6 +9,7 @@ archive/*
 !archive/.gitkeep
 
 transcripts/*.txt
+transcripts/*_readable_transcript.txt
 
 # Sermon media files should not be committed.
 *.mp4
