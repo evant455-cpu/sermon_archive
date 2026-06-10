@@ -72,6 +72,14 @@ Command:
 .\.venv\Scripts\python.exe scripts\list_sermons.py
 ```
 
+## Step 7: Search for the Sermon
+
+Search for the new sermon by title, scripture, or theme:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\search_sermons.py "Holy Spirit"
+```
+
 ## Manual Analysis Fallback
 
 If the Claude API step fails or needs manual review, use `docs/manual_claude_analysis_workflow.md` as the fallback process.

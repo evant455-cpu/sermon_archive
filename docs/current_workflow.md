@@ -101,6 +101,21 @@ Run:
 .\.venv\Scripts\python.exe scripts\list_sermons.py
 ```
 
+## Search Local Sermon Metadata
+
+Use `scripts/search_sermons.py` to search the local metadata JSON files in `metadata/`:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\search_sermons.py grace
+.\.venv\Scripts\python.exe scripts\search_sermons.py John
+.\.venv\Scripts\python.exe scripts\search_sermons.py "Holy Spirit"
+.\.venv\Scripts\python.exe scripts\search_sermons.py privacy
+```
+
+This searches metadata fields such as title, preacher, scripture, theme, summary, call to action, quotes/issues/references lists, and privacy fields when present.
+
+This is a simple Phase 3 metadata search. It does not use SQLite or search full transcript text yet.
+
 ## Manual Analysis Fallback
 
 If Claude API analysis fails or needs manual review, use the manual Claude/Gemini workflow as a fallback. Paste the readable transcript into the manual analysis prompt, save the full response in `working/`, then split the Markdown summary and JSON metadata into `summaries/` and `metadata/`.
