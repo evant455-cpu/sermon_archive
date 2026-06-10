@@ -29,28 +29,30 @@ Place sermon video files in `incoming/`.
 Use a clean sermon ID naming pattern when possible:
 
 ```text
-sermon_3_video.mp4
+sermon_004_raw_video.mp4
 ```
 
-The sermon ID is the file name without the extension:
+The sermon ID is the stable base name before the stage suffix:
 
 ```text
-sermon_3_video
+sermon_004
 ```
+
+Sermons 1-3 used the older `sermon_#_video` pattern and remain supported. Do not manually rename those older files until the scripts support a full migration.
 
 ## Step 2: Extract Audio
 
 Run:
 
 ```powershell
-$env:SERMON_ID="sermon_3_video"
+$env:SERMON_ID="sermon_004"
 .\.venv\Scripts\python.exe scripts\extract_audio.py
 ```
 
 Output:
 
 ```text
-extracted_audio/sermon_3_video.mp3
+extracted_audio/sermon_004_extracted_audio.mp3
 ```
 
 ## Step 3: Transcribe With Speechmatics
@@ -58,14 +60,14 @@ extracted_audio/sermon_3_video.mp3
 Run:
 
 ```powershell
-$env:SERMON_ID="sermon_3_video"
+$env:SERMON_ID="sermon_004"
 .\.venv\Scripts\python.exe scripts\transcribe_audio_speechmatics.py
 ```
 
 Output:
 
 ```text
-transcripts/sermon_3_video_raw_transcript.txt
+transcripts/sermon_004_raw_transcript.txt
 ```
 
 ## Step 4: Format Readable Transcript
@@ -73,14 +75,14 @@ transcripts/sermon_3_video_raw_transcript.txt
 Run:
 
 ```powershell
-$env:SERMON_ID="sermon_3_video"
+$env:SERMON_ID="sermon_004"
 .\.venv\Scripts\python.exe scripts\format_transcript.py
 ```
 
 Output:
 
 ```text
-transcripts/sermon_3_video_readable_transcript.txt
+transcripts/sermon_004_readable_transcript.txt
 ```
 
 ## Step 5: Manual Claude Analysis
@@ -90,14 +92,14 @@ Paste the readable transcript into Claude using the manual sermon analysis promp
 Save Claude's full response into:
 
 ```text
-working/claude_analysis_sermon_3.txt
+working/claude_analysis_sermon_004.txt
 ```
 
 Split Claude's output into:
 
 ```text
-summaries/sermon_3_video_summary.md
-metadata/sermon_3_video_metadata.json
+summaries/sermon_004_summary.md
+metadata/sermon_004_metadata.json
 ```
 
 See `docs/manual_claude_analysis_workflow.md` for the detailed manual analysis rules, uncertainty corrections, and expected archive fields.
@@ -107,7 +109,7 @@ See `docs/manual_claude_analysis_workflow.md` for the detailed manual analysis r
 Validate the metadata JSON before using it:
 
 ```powershell
-.\.venv\Scripts\python.exe -m json.tool metadata\sermon_3_video_metadata.json
+.\.venv\Scripts\python.exe -m json.tool metadata\sermon_004_metadata.json
 ```
 
 If validation fails, fix the JSON syntax before moving on.

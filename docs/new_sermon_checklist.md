@@ -2,24 +2,26 @@
 
 ## Before You Start
 
-- Choose a clean sermon ID, example: `sermon_3_video`
+- Choose a clean sermon ID, example: `sermon_004`
 - Put the video file in `incoming/`
 - Confirm `.env` exists and contains `SPEECHMATICS_API_KEY`
 - Confirm Git status is clean before starting
+
+Sermons 1-3 used the older `sermon_#_video` pattern and remain supported. Do not manually rename those older files until the scripts support a full migration.
 
 ## Step 1 — Extract Audio
 
 Command:
 
 ```powershell
-$env:SERMON_ID="sermon_3_video"
+$env:SERMON_ID="sermon_004"
 .\.venv\Scripts\python.exe scripts\extract_audio.py
 ```
 
 Expected output:
 
 ```text
-extracted_audio/sermon_3_video.mp3
+extracted_audio/sermon_004_extracted_audio.mp3
 ```
 
 ## Step 2 — Transcribe Audio
@@ -27,14 +29,14 @@ extracted_audio/sermon_3_video.mp3
 Command:
 
 ```powershell
-$env:SERMON_ID="sermon_3_video"
+$env:SERMON_ID="sermon_004"
 .\.venv\Scripts\python.exe scripts\transcribe_audio_speechmatics.py
 ```
 
 Expected output:
 
 ```text
-transcripts/sermon_3_video_raw_transcript.txt
+transcripts/sermon_004_raw_transcript.txt
 ```
 
 ## Step 3 — Format Readable Transcript
@@ -42,14 +44,14 @@ transcripts/sermon_3_video_raw_transcript.txt
 Command:
 
 ```powershell
-$env:SERMON_ID="sermon_3_video"
+$env:SERMON_ID="sermon_004"
 .\.venv\Scripts\python.exe scripts\format_transcript.py
 ```
 
 Expected output:
 
 ```text
-transcripts/sermon_3_video_readable_transcript.txt
+transcripts/sermon_004_readable_transcript.txt
 ```
 
 ## Step 4 — Manual Claude Analysis
@@ -59,7 +61,7 @@ transcripts/sermon_3_video_readable_transcript.txt
 - Save Claude's full response to:
 
 ```text
-working/claude_analysis_sermon_3.txt
+working/claude_analysis_sermon_004.txt
 ```
 
 ## Step 5 — Save Archive Outputs
@@ -67,8 +69,8 @@ working/claude_analysis_sermon_3.txt
 Expected outputs:
 
 ```text
-summaries/sermon_3_video_summary.md
-metadata/sermon_3_video_metadata.json
+summaries/sermon_004_summary.md
+metadata/sermon_004_metadata.json
 ```
 
 ## Step 6 — Validate Metadata
@@ -76,7 +78,7 @@ metadata/sermon_3_video_metadata.json
 Command:
 
 ```powershell
-.\.venv\Scripts\python.exe -m json.tool metadata\sermon_3_video_metadata.json
+.\.venv\Scripts\python.exe -m json.tool metadata\sermon_004_metadata.json
 ```
 
 ## Step 7 — List Sermons

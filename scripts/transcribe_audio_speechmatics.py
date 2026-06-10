@@ -32,6 +32,20 @@ async def transcribe_audio(input_audio, output_transcript, api_key):
     return True
 
 
+def uses_old_pattern(sermon_id):
+    return sermon_id.endswith("_video")
+
+
+def input_audio_name(sermon_id):
+    if uses_old_pattern(sermon_id):
+        return f"{sermon_id}.mp3"
+    return f"{sermon_id}_extracted_audio.mp3"
+
+
+def raw_transcript_name(sermon_id):
+    return f"{sermon_id}_raw_transcript.txt"
+
+
 def main():
     project_root = Path(__file__).resolve().parent.parent
     env_file = project_root / ".env"
@@ -71,7 +85,9 @@ def main():
         return
 
     matching_audio = [
-        file_path for file_path in audio_files if file_path.stem == requested_sermon_id
+        file_path
+        for file_path in audio_files
+        if file_path.name == input_audio_name(requested_sermon_id)
     ]
 
     if not matching_audio:
@@ -81,7 +97,7 @@ def main():
 
     input_audio = matching_audio[0]
 
-    output_transcript = transcripts_folder / f"{input_audio.stem}_raw_transcript.txt"
+    output_transcript = transcripts_folder / raw_transcript_name(requested_sermon_id)
 
     transcripts_folder.mkdir(exist_ok=True)
 

@@ -102,11 +102,19 @@ def print_paragraphs(title, paragraphs):
         print(f"{number}. {paragraph}")
 
 
+def raw_transcript_name(sermon_id):
+    return f"{sermon_id}_raw_transcript.txt"
+
+
+def readable_transcript_name(sermon_id):
+    return f"{sermon_id}_readable_transcript.txt"
+
+
 def main():
     project_root = Path(__file__).resolve().parent.parent
     sermon_id = os.environ.get("SERMON_ID", "sermon_1_video")
-    input_path = project_root / "transcripts" / f"{sermon_id}_raw_transcript.txt"
-    output_path = project_root / "transcripts" / f"{sermon_id}_readable_transcript.txt"
+    input_path = project_root / "transcripts" / raw_transcript_name(sermon_id)
+    output_path = project_root / "transcripts" / readable_transcript_name(sermon_id)
 
     print(f"Input path: {input_path}")
     print(f"Output path: {output_path}")

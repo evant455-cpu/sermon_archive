@@ -17,6 +17,22 @@ def clean_audio_name(video_path):
     return f"{clean_path.name}.mp3"
 
 
+def uses_old_pattern(sermon_id):
+    return sermon_id.endswith("_video")
+
+
+def expected_video_name(sermon_id):
+    if uses_old_pattern(sermon_id):
+        return f"{sermon_id}.mp3"
+    return f"{sermon_id}_raw_video.mp3"
+
+
+def output_audio_name(sermon_id):
+    if uses_old_pattern(sermon_id):
+        return f"{sermon_id}.mp3"
+    return f"{sermon_id}_extracted_audio.mp3"
+
+
 def main():
     project_root = Path(__file__).resolve().parent.parent
     incoming_folder = project_root / "incoming"
@@ -39,7 +55,7 @@ def main():
     matching_videos = [
         file_path
         for file_path in video_files
-        if clean_audio_name(file_path) == f"{requested_sermon_id}.mp3"
+        if clean_audio_name(file_path) == expected_video_name(requested_sermon_id)
     ]
 
     if not matching_videos:
@@ -49,7 +65,7 @@ def main():
 
     input_video = matching_videos[0]
 
-    output_audio = audio_folder / clean_audio_name(input_video)
+    output_audio = audio_folder / output_audio_name(requested_sermon_id)
 
     audio_folder.mkdir(exist_ok=True)
 
