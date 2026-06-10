@@ -26,10 +26,10 @@ working/
 
 Place sermon video files in `incoming/`.
 
-Use a clean sermon ID naming pattern when possible:
+Use the stage-based naming pattern for new sermons:
 
 ```text
-sermon_004_raw_video.mp4
+incoming/sermon_004_raw_video.mp4
 ```
 
 The sermon ID is the stable base name before the stage suffix:
@@ -40,71 +40,50 @@ sermon_004
 
 Sermons 1-3 used the older `sermon_#_video` pattern and remain supported. Do not manually rename those older files until the scripts support a full migration.
 
-## Step 2: Extract Audio
+## Step 2: Run the One-Command Pipeline
 
-Run:
-
-```powershell
-$env:SERMON_ID="sermon_004"
-.\.venv\Scripts\python.exe scripts\extract_audio.py
-```
-
-Output:
-
-```text
-extracted_audio/sermon_004_extracted_audio.mp3
-```
-
-## Step 3: Transcribe With Speechmatics
-
-Run:
+The recommended normal workflow is:
 
 ```powershell
 $env:SERMON_ID="sermon_004"
-.\.venv\Scripts\python.exe scripts\transcribe_audio_speechmatics.py
+.\.venv\Scripts\python.exe scripts\run_full_pipeline.py
 ```
 
-Output:
+This runs the full local archive pipeline for the selected sermon only:
 
-```text
-transcripts/sermon_004_raw_transcript.txt
-```
+1. `process_sermon.py`
+2. `analyze_transcript_claude.py`
+3. `list_sermons.py`
 
-## Step 4: Format Readable Transcript
+`process_sermon.py` handles:
 
-Run:
+- audio extraction
+- Speechmatics transcription
+- readable transcript formatting
+- manual prompt package creation in `working/`
 
-```powershell
-$env:SERMON_ID="sermon_004"
-.\.venv\Scripts\python.exe scripts\format_transcript.py
-```
-
-Output:
-
-```text
-transcripts/sermon_004_readable_transcript.txt
-```
-
-## Step 5: Manual Claude Analysis
-
-Paste the readable transcript into Claude using the manual sermon analysis prompt.
-
-Save Claude's full response into:
-
-```text
-working/claude_analysis_sermon_004.txt
-```
-
-Split Claude's output into:
+`analyze_transcript_claude.py` uses the Claude API to generate:
 
 ```text
 summaries/sermon_004_summary.md
 metadata/sermon_004_metadata.json
 ```
 
-See `docs/manual_claude_analysis_workflow.md` for the detailed manual analysis rules, uncertainty corrections, and expected archive fields.
+`list_sermons.py` then prints the local catalog so the new sermon can be checked immediately.
 
-## Step 6: Validate Metadata JSON
+## Step 3: Review Outputs
+
+Review:
+
+```text
+extracted_audio/sermon_004_extracted_audio.mp3
+transcripts/sermon_004_raw_transcript.txt
+transcripts/sermon_004_readable_transcript.txt
+summaries/sermon_004_summary.md
+metadata/sermon_004_metadata.json
+```
+
+## Step 4: Validate Metadata JSON
 
 Validate the metadata JSON before using it:
 
@@ -114,13 +93,19 @@ Validate the metadata JSON before using it:
 
 If validation fails, fix the JSON syntax before moving on.
 
-## Step 7: List Local Sermon Catalog
+## Step 5: List Local Sermon Catalog
 
 Run:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\list_sermons.py
 ```
+
+## Manual Analysis Fallback
+
+If Claude API analysis fails or needs manual review, use the manual Claude/Gemini workflow as a fallback. Paste the readable transcript into the manual analysis prompt, save the full response in `working/`, then split the Markdown summary and JSON metadata into `summaries/` and `metadata/`.
+
+See `docs/manual_claude_analysis_workflow.md` for the detailed manual analysis rules, uncertainty corrections, and expected archive fields.
 
 ## Git Rules
 

@@ -22,7 +22,7 @@ For V1, the practical finish line is reached when the project can:
 
 This does not need to be a perfect or final system. V1 should be useful, repeatable, and safe enough to keep using while future improvements are added later.
 
-## Phase 0 — Project Setup and Guardrails
+## Phase 0 - Project Setup and Guardrails
 
 Status: Complete
 
@@ -37,7 +37,7 @@ Completed work:
 
 The project has the basic safety rails in place: source code and docs can be committed, while sermon media, generated transcripts, summaries, metadata, working files, `.env`, and API keys stay out of Git.
 
-## Phase 1 — Manual Proof of One Sermon
+## Phase 1 - Manual Proof of One Sermon
 
 Status: Complete
 
@@ -52,27 +52,29 @@ Completed work:
 
 This proved the core idea: one sermon can move from raw video to a useful archive record.
 
-## Phase 2 — Repeatability Across Multiple Sermons
+## Phase 2 - Repeatability Across Multiple Sermons
 
-Status: In Progress
+Status: Complete
 
-Current work:
+Completed work:
 
 - configurable `SERMON_ID`
-- process sermon 2
+- process sermons 1-3
 - verify same workflow works more than once
 - create current workflow documentation
 - create checklist for each new sermon
+- support the new stage-based naming convention while preserving the older `sermon_#_video` pattern
+- create a working automated pipeline runner: `scripts/run_full_pipeline.py`
 
-Exit criteria:
+Completed exit criteria:
 
 - process 3 sermons end-to-end with the same documented workflow
 
-This phase is about proving the workflow is repeatable, not fancy. If sermon 3 works without rewriting the process, the project is moving from proof-of-concept into practical use.
+This phase proved the workflow is repeatable. The project now has a one-command runner that processes one selected `SERMON_ID`, calls Claude analysis, and prints the local catalog.
 
-## Phase 3 — Local Catalog and Search
+## Phase 3 - Local Catalog and Search
 
-Status: Not Started
+Status: Active / Next
 
 Planned work:
 
@@ -80,6 +82,7 @@ Planned work:
 - export CSV
 - search by title, scripture, theme, preacher, privacy flag
 - optionally create SQLite database later, but not yet
+- process sermon 4 under the new naming convention (`SERMON_ID=sermon_004`)
 
 Exit criteria:
 
@@ -87,7 +90,7 @@ Exit criteria:
 
 Keep this simple first. A useful local search script is enough before considering a database or dashboard.
 
-## Phase 4 — Backlog Processing Workflow
+## Phase 4 - Backlog Processing Workflow
 
 Status: Not Started
 
@@ -104,7 +107,7 @@ Exit criteria:
 
 Backlog work should be careful and steady. Batch processing is useful, but only after the manual checkpoints are clear enough to prevent mistakes.
 
-## Phase 5 — Future Sunday Workflow
+## Phase 5 - Future Sunday Workflow
 
 Status: Not Started
 
@@ -122,7 +125,7 @@ Exit criteria:
 
 The goal is a normal weekly habit: record, process, review, archive.
 
-## Phase 6 — Privacy and Publishing Rules
+## Phase 6 - Privacy and Publishing Rules
 
 Status: Not Started
 
@@ -139,7 +142,7 @@ Exit criteria:
 
 This matters before anything becomes public. Baptisms, testimonies, children's names, prayer needs, and personal details need review before sharing outside the archive.
 
-## Phase 7 — Practical V1 Completion
+## Phase 7 - Practical V1 Completion
 
 Status: Not Started
 
