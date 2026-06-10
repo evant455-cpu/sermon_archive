@@ -92,7 +92,7 @@ Keep this simple first. A useful local search script is enough before considerin
 
 ## Phase 4 - Backlog Processing Workflow
 
-Status: Not Started
+Status: Blocked / Limited
 
 Planned work:
 
@@ -105,11 +105,11 @@ Exit criteria:
 
 - at least 10 historical sermons processed and listed
 
-Backlog work should be careful and steady. Batch processing is useful, but only after the manual checkpoints are clear enough to prevent mistakes.
+Historical Facebook videos appear deleted or unavailable. If old videos are found later, they can still be processed manually, but this phase should not block current work.
 
 ## Phase 5 - Future Sunday Workflow
 
-Status: Not Started
+Status: Current Priority
 
 Planned work:
 
@@ -118,6 +118,7 @@ Planned work:
 - process after service
 - create summary/metadata
 - optionally export PDF for sharing
+- follow `docs/future_sunday_recording_workflow.md`
 
 Exit criteria:
 
