@@ -3,6 +3,16 @@ from pathlib import Path
 
 
 PRIVACY_KEYWORDS = ("privacy", "minor", "full name", "baptism name")
+PRIVACY_FIELD_NAMES = (
+    "privacy_review_needed",
+    "privacy_flag",
+    "privacy",
+    "needs_privacy_review",
+    "privacy_review",
+    "sensitive_content_flag",
+)
+TRUE_PRIVACY_VALUES = ("true", "yes", "needed")
+FALSE_PRIVACY_VALUES = ("false", "no", "not needed")
 COLUMNS = [
     ("sermon_id", "Sermon ID", 18),
     ("sermon_title", "Title", 34),
@@ -21,17 +31,47 @@ def truncate(value, width):
     return text[: max(0, width - 3)] + "..."
 
 
-def needs_privacy_review(metadata):
+def privacy_value_to_bool(value):
+    if isinstance(value, bool):
+        return value
+
+    if isinstance(value, str):
+        cleaned_value = value.strip().lower()
+        if cleaned_value in TRUE_PRIVACY_VALUES:
+            return True
+        if cleaned_value in FALSE_PRIVACY_VALUES:
+            return False
+
+    return None
+
+
+def transcript_issues_need_privacy_review(metadata):
     issues = metadata.get("transcript_issues", [])
     if not isinstance(issues, list):
-        return False
+        return None
 
     for issue in issues:
         issue_text = str(issue).lower()
         if any(keyword in issue_text for keyword in PRIVACY_KEYWORDS):
             return True
 
-    return False
+    return None
+
+
+def needs_privacy_review(metadata):
+    found_false_value = False
+
+    for field_name in PRIVACY_FIELD_NAMES:
+        privacy_value = privacy_value_to_bool(metadata.get(field_name))
+        if privacy_value is True:
+            return True
+        if privacy_value is False:
+            found_false_value = True
+
+    if found_false_value:
+        return False
+
+    return transcript_issues_need_privacy_review(metadata)
 
 
 def load_metadata(metadata_path):
